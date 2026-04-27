@@ -1,5 +1,16 @@
 # scitex-context
 
+<!-- scitex-badges:start -->
+[![PyPI](https://img.shields.io/pypi/v/scitex-context.svg)](https://pypi.org/project/scitex-context/)
+[![Python](https://img.shields.io/pypi/pyversions/scitex-context.svg)](https://pypi.org/project/scitex-context/)
+[![Tests](https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml)
+[![Install Test](https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml)
+[![Coverage](https://codecov.io/gh/ywatanabe1989/scitex-context/graph/badge.svg)](https://codecov.io/gh/ywatanabe1989/scitex-context)
+[![Docs](https://readthedocs.org/projects/scitex-context/badge/?version=latest)](https://scitex-context.readthedocs.io/en/latest/)
+[![License: AGPL v3](https://img.shields.io/badge/license-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+<!-- scitex-badges:end -->
+
+
 Execution-context detection (script vs Jupyter vs IPython) and stdout/stderr suppression helpers, extracted from the [SciTeX](https://github.com/ywatanabe1989/scitex-python) ecosystem as a standalone, zero-dep package.
 
 ## Install
