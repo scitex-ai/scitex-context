@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """scitex-context — execution-context detection (script vs notebook vs IPython) + output suppression."""
 
+from __future__ import annotations
+
 try:
     from importlib.metadata import version as _v, PackageNotFoundError
     try:
@@ -26,6 +28,7 @@ from ._get_notebook_path import (
 from ._suppress_output import quiet, suppress_output
 
 __all__ = [
+    "__version__",
     "detect_environment",
     "get_notebook_directory",
     "get_notebook_info_simple",
