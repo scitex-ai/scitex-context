@@ -44,7 +44,7 @@ with ctx.suppress_output():
 
 ## 1 Interfaces
 
-<details>
+<details open>
 <summary><strong>Python API</strong></summary>
 
 <br>
