@@ -83,7 +83,9 @@ bridge.
 
 ## Part of SciTeX
 
-`scitex-context` is part of [**SciTeX**](https://scitex.ai).
+`scitex-context` is part of [**SciTeX**](https://scitex.ai). Install via
+the umbrella with `pip install scitex[context]` to use as
+`scitex.context` (Python).
 
 >Four Freedoms for Research
 >
