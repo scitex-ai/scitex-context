@@ -1,15 +1,5 @@
 # scitex-context
 
-<!-- scitex-badges:start -->
-[![PyPI](https://img.shields.io/pypi/v/scitex-context.svg)](https://pypi.org/project/scitex-context/)
-[![Python](https://img.shields.io/pypi/pyversions/scitex-context.svg)](https://pypi.org/project/scitex-context/)
-[![Tests](https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml)
-[![Install Test](https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml/badge.svg)](https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml)
-[![Coverage](https://codecov.io/gh/ywatanabe1989/scitex-context/graph/badge.svg)](https://codecov.io/gh/ywatanabe1989/scitex-context)
-[![Docs](https://readthedocs.org/projects/scitex-context/badge/?version=latest)](https://scitex-context.readthedocs.io/en/latest/)
-[![License: AGPL v3](https://img.shields.io/badge/license-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-<!-- scitex-badges:end -->
-
 <p align="center">
   <a href="https://scitex.ai">
     <img src="docs/scitex-logo-blue-cropped.png" alt="SciTeX" width="400">
@@ -21,6 +11,18 @@
 <p align="center">
   <a href="https://scitex-context.readthedocs.io/">Full Documentation</a> · <code>pip install scitex-context</code>
 </p>
+
+<!-- scitex-badges:start -->
+<p align="center">
+  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/v/scitex-context.svg" alt="PyPI"></a>
+  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/pyversions/scitex-context.svg" alt="Python"></a>
+  <a href="https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml"><img src="https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml"><img src="https://github.com/ywatanabe1989/scitex-context/actions/workflows/install-test.yml/badge.svg" alt="Install Test"></a>
+  <a href="https://codecov.io/gh/ywatanabe1989/scitex-context"><img src="https://codecov.io/gh/ywatanabe1989/scitex-context/graph/badge.svg" alt="Coverage"></a>
+  <a href="https://scitex-context.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/scitex-context/badge/?version=latest" alt="Docs"></a>
+  <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/license-AGPL_v3-blue.svg" alt="License: AGPL v3"></a>
+</p>
+<!-- scitex-badges:end -->
 
 ---
 
