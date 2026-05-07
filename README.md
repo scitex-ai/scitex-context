@@ -32,6 +32,19 @@
 pip install scitex-context
 ```
 
+## Architecture
+
+```
+scitex_context/
+├── __init__.py                 ← Public API (env detection + suppress helpers)
+├── _detect_environment.py      ← script / notebook / ipython detector
+├── _get_notebook_path.py       ← Jupyter notebook path & metadata helpers
+└── _suppress_output.py         ← suppress_output() / quiet() context managers
+```
+
+Pure-stdlib, zero-dep helpers. The umbrella `scitex.context` import path
+is preserved via a `sys.modules`-alias bridge installed at import time.
+
 ## Quick Start
 
 ```python
@@ -76,6 +89,19 @@ with ctx.quiet():               # alias
 ```
 
 </details>
+
+## Demo
+
+```mermaid
+flowchart LR
+    A["import scitex_context as ctx"] --> B{ctx.detect_environment()}
+    B -- "python foo.py" --> S["script"]
+    B -- "jupyter" --> N["notebook"]
+    B -- "ipython REPL" --> I["ipython"]
+    S & N & I --> O["ctx.get_output_directory()"]
+    N --> P["ctx.get_notebook_path()"]
+    A --> Q["with ctx.suppress_output():<br/>    noisy_call()"]
+```
 
 ## Status
 
