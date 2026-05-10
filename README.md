@@ -9,7 +9,7 @@
 <p align="center"><b>Execution-context detection (script vs Jupyter vs IPython) and output suppression helpers.</b></p>
 
 <p align="center">
-  <a href="https://scitex-context.readthedocs.io/">Full Documentation</a> · <code>pip install scitex-context</code>
+  <a href="https://scitex-context.readthedocs.io/">Full Documentation</a> · <code>uv pip install scitex-context[all]</code>
 </p>
 
 <!-- scitex-badges:start -->
