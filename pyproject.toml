@@ -23,8 +23,9 @@ dependencies = []
 dev = [
     "pytest",
     "pytest-cov",
+    "pytest-timeout",  # tests run with --timeout=120 in CI test.yml
     "ruff",
-    "scitex-dev>=0.11.7",
+    "scitex-dev[cli-audit]>=0.11.7",  # tests/develop/test_audit.py
 ]
 docs = [
     "sphinx>=7.0",
@@ -54,6 +55,11 @@ scitex-context = "scitex_context"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["--disable-warnings"]
+
+[tool.coverage.run]
+parallel = true
+source = ["scitex_context"]
+concurrency = ["multiprocessing", "thread"]
 
 [tool.ruff]
 target-version = "py39"

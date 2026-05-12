@@ -1,0 +1,6 @@
+# scitex-dev local config for scitex-context.
+# Schema: see scitex_dev/_cli/audit/_project/_config.py
+audit:
+  root-whitelist:
+    files:
+      - codecov.yml
