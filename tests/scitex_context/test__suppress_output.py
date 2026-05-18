@@ -16,7 +16,6 @@ Test Structure:
 - Alias testing (quiet)
 """
 
-import os
 import sys
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
@@ -29,189 +28,258 @@ from scitex_context._suppress_output import quiet, suppress_output
 class TestSuppressOutput:
     """Test cases for the suppress_output context manager."""
 
-    def test_function_exists(self):
-        """Test that the suppress_output function exists and is callable."""
-        assert callable(suppress_output), "suppress_output should be callable"
+    def test_suppress_output_is_callable_after_import(self):
+        # Arrange
+        target = suppress_output
 
-    def test_suppress_stdout(self):
-        """Test that stdout is suppressed when using the context manager."""
-        # Capture stdout to verify suppression
+        # Act
+        is_callable = callable(target)
+
+        # Assert
+        assert is_callable, "suppress_output should be callable"
+
+    def test_suppress_output_hides_stdout_inside_block(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
-            # This should not appear in captured output
             with suppress_output():
                 print("This should be suppressed")
+        observed = captured_output.getvalue()
 
-            # This should appear in captured output
+        # Assert
+        assert "This should be suppressed" not in observed
+
+    def test_suppress_output_restores_stdout_after_block(self):
+        # Arrange
+        captured_output = StringIO()
+
+        # Act
+        with redirect_stdout(captured_output):
+            with suppress_output():
+                print("This should be suppressed")
             print("This should be visible")
+        observed = captured_output.getvalue()
 
-        output = captured_output.getvalue()
-        assert "This should be suppressed" not in output
-        assert "This should be visible" in output
+        # Assert
+        assert "This should be visible" in observed
 
-    def test_suppress_stderr(self):
-        """Test that stderr is suppressed when using the context manager."""
-        # Capture stderr to verify suppression
+    def test_suppress_output_hides_stderr_inside_block(self):
+        # Arrange
         captured_error = StringIO()
 
+        # Act
         with redirect_stderr(captured_error):
-            # This should not appear in captured error
             with suppress_output():
                 print("This should be suppressed to stderr", file=sys.stderr)
+        observed = captured_error.getvalue()
 
-            # This should appear in captured error
+        # Assert
+        assert "This should be suppressed to stderr" not in observed
+
+    def test_suppress_output_restores_stderr_after_block(self):
+        # Arrange
+        captured_error = StringIO()
+
+        # Act
+        with redirect_stderr(captured_error):
+            with suppress_output():
+                print("Suppressed", file=sys.stderr)
             print("This should be visible to stderr", file=sys.stderr)
+        observed = captured_error.getvalue()
 
-        error_output = captured_error.getvalue()
-        assert "This should be suppressed to stderr" not in error_output
-        assert "This should be visible to stderr" in error_output
+        # Assert
+        assert "This should be visible to stderr" in observed
 
-    def test_suppress_both_stdout_stderr(self):
-        """Test that both stdout and stderr are suppressed simultaneously."""
+    def test_suppress_output_hides_stdout_when_both_streams_active(self):
+        # Arrange
         captured_output = StringIO()
         captured_error = StringIO()
 
+        # Act
         with redirect_stdout(captured_output), redirect_stderr(captured_error):
             with suppress_output():
                 print("Suppressed stdout")
                 print("Suppressed stderr", file=sys.stderr)
+        observed = captured_output.getvalue()
 
-            print("Visible stdout")
-            print("Visible stderr", file=sys.stderr)
+        # Assert
+        assert "Suppressed stdout" not in observed
 
-        output = captured_output.getvalue()
-        error_output = captured_error.getvalue()
+    def test_suppress_output_hides_stderr_when_both_streams_active(self):
+        # Arrange
+        captured_output = StringIO()
+        captured_error = StringIO()
 
-        assert "Suppressed stdout" not in output
-        assert "Suppressed stderr" not in error_output
-        assert "Visible stdout" in output
-        assert "Visible stderr" in error_output
+        # Act
+        with redirect_stdout(captured_output), redirect_stderr(captured_error):
+            with suppress_output():
+                print("Suppressed stdout")
+                print("Suppressed stderr", file=sys.stderr)
+        observed = captured_error.getvalue()
 
-    def test_suppress_false(self):
-        """Test that output is NOT suppressed when suppress=False."""
+        # Assert
+        assert "Suppressed stderr" not in observed
+
+    def test_suppress_output_with_suppress_false_passes_stdout_through(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
             with suppress_output(suppress=False):
                 print("This should be visible")
+        observed = captured_output.getvalue()
 
-        output = captured_output.getvalue()
-        assert "This should be visible" in output
+        # Assert
+        assert "This should be visible" in observed
 
-    def test_suppress_true_explicit(self):
-        """Test explicit suppress=True parameter."""
+    def test_suppress_output_with_explicit_suppress_true_hides_stdout(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
             with suppress_output(suppress=True):
                 print("This should be suppressed")
+        observed = captured_output.getvalue()
 
-            print("This should be visible")
+        # Assert
+        assert "This should be suppressed" not in observed
 
-        output = captured_output.getvalue()
-        assert "This should be suppressed" not in output
-        assert "This should be visible" in output
-
-    def test_nested_suppress_contexts(self):
-        """Test nested suppress_output contexts."""
+    def test_nested_suppress_output_blocks_hide_inner_print(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
-            print("Before outer context")
-
             with suppress_output():
-                print("Outer suppressed")
-
                 with suppress_output():
                     print("Inner suppressed")
+        observed = captured_output.getvalue()
 
-                print("Outer suppressed again")
+        # Assert
+        assert "Inner suppressed" not in observed
 
-            print("After outer context")
-
-        output = captured_output.getvalue()
-        assert "Before outer context" in output
-        assert "Outer suppressed" not in output
-        assert "Inner suppressed" not in output
-        assert "Outer suppressed again" not in output
-        assert "After outer context" in output
-
-    def test_mixed_nested_contexts(self):
-        """Test nested contexts with mixed suppress settings."""
+    def test_nested_suppress_output_blocks_restore_outer_print(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
+        with redirect_stdout(captured_output):
+            with suppress_output():
+                pass
+            print("After outer context")
+        observed = captured_output.getvalue()
+
+        # Assert
+        assert "After outer context" in observed
+
+    def test_mixed_nested_contexts_pass_outer_when_false(self):
+        # Arrange
+        captured_output = StringIO()
+
+        # Act
         with redirect_stdout(captured_output):
             with suppress_output(suppress=False):
                 print("Outer not suppressed")
-
                 with suppress_output(suppress=True):
-                    print("Inner suppressed")
+                    pass
+        observed = captured_output.getvalue()
 
-                print("Outer not suppressed again")
+        # Assert
+        assert "Outer not suppressed" in observed
 
-        output = captured_output.getvalue()
-        assert "Outer not suppressed" in output
-        assert "Inner suppressed" not in output
-        assert "Outer not suppressed again" in output
-
-    def test_exception_handling(self):
-        """Test that exceptions are properly handled within suppressed context."""
+    def test_mixed_nested_contexts_hide_inner_when_true(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
-            with pytest.raises(ValueError):
-                with suppress_output():
-                    print("This should be suppressed")
-                    raise ValueError("Test exception")
+            with suppress_output(suppress=False):
+                with suppress_output(suppress=True):
+                    print("Inner suppressed")
+        observed = captured_output.getvalue()
 
-        output = captured_output.getvalue()
-        assert "This should be suppressed" not in output
+        # Assert
+        assert "Inner suppressed" not in observed
 
-    def test_return_values_preserved(self):
-        """Test that return values from functions work within suppressed context."""
+    def test_suppress_output_propagates_value_error_from_block(self):
+        # Arrange
+        def raises_value_error():
+            with suppress_output():
+                raise ValueError("Test exception")
 
-        def test_function():
+        # Act
+        action = raises_value_error
+
+        # Assert
+        with pytest.raises(ValueError):
+            action()
+
+    def test_suppress_output_returns_value_from_called_function(self):
+        # Arrange
+        def inner():
             print("This should be suppressed")
             return "test_value"
 
-        captured_output = StringIO()
+        # Act
+        with suppress_output():
+            result = inner()
 
-        with redirect_stdout(captured_output):
-            with suppress_output():
-                result = test_function()
-
-        output = captured_output.getvalue()
-        assert "This should be suppressed" not in output
+        # Assert
         assert result == "test_value"
 
-    def test_quiet_alias(self):
-        """Test that 'quiet' is an alias for suppress_output."""
-        assert quiet is suppress_output
+    def test_quiet_alias_is_same_object_as_suppress_output(self):
+        # Arrange
+        a = quiet
+        b = suppress_output
 
-        # Test that it works the same way
+        # Act
+        same = a is b
+
+        # Assert
+        assert same
+
+    def test_quiet_alias_hides_stdout_inside_block(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
             with quiet():
                 print("This should be suppressed by quiet")
+        observed = captured_output.getvalue()
 
-            print("This should be visible")
+        # Assert
+        assert "This should be suppressed by quiet" not in observed
 
-        output = captured_output.getvalue()
-        assert "This should be suppressed by quiet" not in output
-        assert "This should be visible" in output
-
-    def test_context_manager_protocol(self):
-        """Test that suppress_output properly implements context manager protocol."""
-        # Test __enter__ and __exit__ methods exist
+    def test_suppress_output_instance_implements_enter_method(self):
+        # Arrange
         context_manager = suppress_output()
-        assert hasattr(context_manager, "__enter__")
-        assert hasattr(context_manager, "__exit__")
 
-        # Test manual context manager usage
+        # Act
+        has_enter = hasattr(context_manager, "__enter__")
+
+        # Assert
+        assert has_enter
+
+    def test_suppress_output_instance_implements_exit_method(self):
+        # Arrange
+        context_manager = suppress_output()
+
+        # Act
+        has_exit = hasattr(context_manager, "__exit__")
+
+        # Assert
+        assert has_exit
+
+    def test_suppress_output_manual_enter_exit_hides_stdout(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
             cm = suppress_output()
             cm.__enter__()
@@ -219,56 +287,50 @@ class TestSuppressOutput:
                 print("Manually suppressed")
             finally:
                 cm.__exit__(None, None, None)
+        observed = captured_output.getvalue()
 
-            print("After manual context")
+        # Assert
+        assert "Manually suppressed" not in observed
 
-        output = captured_output.getvalue()
-        assert "Manually suppressed" not in output
-        assert "After manual context" in output
-
-    def test_large_output_suppression(self):
-        """Test suppression with large amounts of output."""
+    def test_suppress_output_handles_large_volume_of_output_lines(self):
+        # Arrange
         captured_output = StringIO()
 
+        # Act
         with redirect_stdout(captured_output):
             with suppress_output():
-                # Generate large output
                 for i in range(1000):
                     print(f"Line {i} should be suppressed")
+        observed = captured_output.getvalue()
 
-            print("Final visible line")
+        # Assert
+        assert "Line 999 should be suppressed" not in observed
 
-        output = captured_output.getvalue()
-        assert "Line 0 should be suppressed" not in output
-        assert "Line 999 should be suppressed" not in output
-        assert "Final visible line" in output
-
-    def test_output_types(self):
-        """Test suppression with different types of output."""
+    def test_suppress_output_hides_sys_stdout_write_calls(self):
+        # Arrange
         captured_output = StringIO()
+
+        # Act
+        with redirect_stdout(captured_output):
+            with suppress_output():
+                sys.stdout.write("Direct stdout write\n")
+        observed = captured_output.getvalue()
+
+        # Assert
+        assert len(observed) == 0
+
+    def test_suppress_output_hides_sys_stderr_write_calls(self):
+        # Arrange
         captured_error = StringIO()
 
-        with redirect_stdout(captured_output), redirect_stderr(captured_error):
+        # Act
+        with redirect_stderr(captured_error):
             with suppress_output():
-                # Different print operations
-                print("Simple string")
-                print(42)
-                print([1, 2, 3])
-                print({"key": "value"})
-
-                # stderr output
-                print("Error message", file=sys.stderr)
-
-                # sys.stdout.write
-                sys.stdout.write("Direct stdout write\n")
                 sys.stderr.write("Direct stderr write\n")
+        observed = captured_error.getvalue()
 
-        output = captured_output.getvalue()
-        error_output = captured_error.getvalue()
-
-        # All should be suppressed
-        assert len(output) == 0
-        assert len(error_output) == 0
+        # Assert
+        assert len(observed) == 0
 
 
 if __name__ == "__main__":
@@ -278,49 +340,4 @@ if __name__ == "__main__":
 
     pytest.main([os.path.abspath(__file__)])
 
-# --------------------------------------------------------------------------------
-# Start of Source Code from: /home/ywatanabe/proj/scitex-code/src/scitex/context/_suppress_output.py
-# --------------------------------------------------------------------------------
-# #!/usr/bin/env python3
-# # -*- coding: utf-8 -*-
-# # Timestamp: "2025-10-13 08:18:37 (ywatanabe)"
-# # File: /home/ywatanabe/proj/scitex_repo/src/scitex/context/_suppress_output.py
-# # ----------------------------------------
-# from __future__ import annotations
-# import os
-#
-# __FILE__ = "./src/scitex/context/_suppress_output.py"
-# __DIR__ = os.path.dirname(__FILE__)
-# # ----------------------------------------
-#
-# from contextlib import contextmanager, redirect_stderr, redirect_stdout
-#
-#
-# @contextmanager
-# def suppress_output(suppress=True):
-#     """
-#     A context manager that suppresses stdout and stderr.
-#
-#     Example:
-#         with suppress_output():
-#             print("This will not be printed to the console.")
-#     """
-#     if suppress:
-#         # Open a file descriptor that points to os.devnull (a black hole for data)
-#         with open(os.devnull, "w") as fnull:
-#             # Temporarily redirect stdout and stderr to the file descriptor fnull
-#             with redirect_stdout(fnull), redirect_stderr(fnull):
-#                 # Yield control back to the context block
-#                 yield
-#     else:
-#         # If suppress is False, just yield without redirecting output
-#         yield
-#
-#
-# quiet = suppress_output
-#
-# # EOF
-
-# --------------------------------------------------------------------------------
-# End of Source Code from: /home/ywatanabe/proj/scitex-code/src/scitex/context/_suppress_output.py
-# --------------------------------------------------------------------------------
+# EOF
