@@ -1,8 +1,8 @@
 scitex-context
-=============
+==============
 
-Small linear-algebra helpers (distance, geometric median, cosine, nannorm)
-extracted from the SciTeX ecosystem as a standalone package.
+Execution-context detection (script vs Jupyter vs IPython) and output
+suppression helpers — standalone module from the SciTeX ecosystem.
 
 .. toctree::
    :maxdepth: 2
@@ -13,8 +13,4 @@ extracted from the SciTeX ecosystem as a standalone package.
 API Reference
 -------------
 
-.. autosummary::
-   :toctree: api
-   :recursive:
-
-   scitex_context
+See the :doc:`api` page for the full module reference.
