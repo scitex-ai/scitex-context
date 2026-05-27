@@ -1,5 +1,5 @@
 scitex-context
-=============
+==============
 
 Execution-context detection (script vs Jupyter vs IPython) and output
 suppression helpers — standalone module from the SciTeX ecosystem.
@@ -13,8 +13,4 @@ suppression helpers — standalone module from the SciTeX ecosystem.
 API Reference
 -------------
 
-.. autosummary::
-   :toctree: api
-   :recursive:
-
-   scitex_context
+See the :doc:`api` page for the full module reference.
