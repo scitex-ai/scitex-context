@@ -46,9 +46,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_context.html">scitex_context</a></li>
-</ul>
 
         </div>
       </div>
@@ -100,7 +97,7 @@
 
 
 <div class="viewcode-block" id="detect_environment">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.detect_environment">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.detect_environment">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">detect_environment</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">EnvironmentType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Detect the current execution environment.</span>
@@ -146,7 +143,7 @@
 
 
 <div class="viewcode-block" id="get_output_directory">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.get_output_directory">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.get_output_directory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_output_directory</span><span class="p">(</span>
     <span class="n">specified_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env_type</span><span class="p">:</span> <span class="n">EnvironmentType</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
@@ -211,7 +208,7 @@
 
 
 <div class="viewcode-block" id="is_notebook">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.is_notebook">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.is_notebook">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_notebook</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if running in Jupyter notebook.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">detect_environment</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;jupyter&quot;</span></div>
@@ -219,7 +216,7 @@
 
 
 <div class="viewcode-block" id="is_ipython">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.is_ipython">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.is_ipython">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_ipython</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if running in IPython (console or notebook).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">detect_environment</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;jupyter&quot;</span><span class="p">,</span> <span class="s2">&quot;ipython&quot;</span><span class="p">]</span></div>
@@ -227,7 +224,7 @@
 
 
 <div class="viewcode-block" id="is_script">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.is_script">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.is_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_script</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if running as a script.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">detect_environment</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;script&quot;</span></div>

@@ -46,9 +46,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_context.html">scitex_context</a></li>
-</ul>
 
         </div>
       </div>
@@ -95,7 +92,7 @@
 
 
 <div class="viewcode-block" id="get_notebook_path">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.get_notebook_path">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.get_notebook_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_notebook_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the full path of the current Jupyter notebook.</span>
@@ -222,7 +219,7 @@
 
 
 <div class="viewcode-block" id="get_notebook_name">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.get_notebook_name">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.get_notebook_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_notebook_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get just the name of the current notebook (without path).</span>
@@ -246,7 +243,7 @@
 
 
 <div class="viewcode-block" id="get_notebook_directory">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.get_notebook_directory">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.get_notebook_directory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_notebook_directory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the directory containing the current notebook.</span>
@@ -265,7 +262,7 @@
 
 <span class="c1"># Simpler fallback method for when advanced detection fails</span>
 <div class="viewcode-block" id="get_notebook_info_simple">
-<a class="viewcode-back" href="../../api/scitex_context.html#scitex_context.get_notebook_info_simple">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_context.get_notebook_info_simple">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_notebook_info_simple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple method to get notebook info using current working directory.</span>
