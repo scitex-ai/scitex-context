@@ -1,8 +1,8 @@
 scitex-context
 =============
 
-Small linear-algebra helpers (distance, geometric median, cosine, nannorm)
-extracted from the SciTeX ecosystem as a standalone package.
+Execution-context detection (script vs Jupyter vs IPython) and output
+suppression helpers — standalone module from the SciTeX ecosystem.
 
 .. toctree::
    :maxdepth: 2
