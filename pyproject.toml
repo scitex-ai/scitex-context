@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scitex-context"
-version = "0.1.4"
+version = "0.2.0"
 description = "Execution-context detection (script vs Jupyter vs IPython) + stdout/stderr suppression — standalone module from the SciTeX ecosystem"
 readme = "README.md"
 license = "AGPL-3.0-only"
@@ -20,6 +20,13 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+ipython = [
+    # ``embed`` / ``less`` need IPython; ``embed`` / ``paste`` also need
+    # pyperclip. These are optional — the package as a whole works
+    # without them.
+    "IPython>=8.0",
+    "pyperclip>=1.8",
+]
 dev = [
     "pytest",
     "pytest-cov",
