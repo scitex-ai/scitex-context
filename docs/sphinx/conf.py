@@ -48,7 +48,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
 
 html_theme = "sphinx_rtd_theme"
-html_static_path = ["_static"]
+# html_static_path = ["_static"]   # uncomment and create _static/ when needed
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
