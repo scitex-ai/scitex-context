@@ -14,35 +14,18 @@
 
 <!-- scitex-badges:start -->
 <p align="center">
-  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/v/scitex-context.svg" alt="PyPI"></a>
-  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/pyversions/scitex-context.svg" alt="Python"></a>
-  <a href="https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml"><img src="https://github.com/ywatanabe1989/scitex-context/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-  <a href="https://codecov.io/gh/ywatanabe1989/scitex-context"><img src="https://codecov.io/gh/ywatanabe1989/scitex-context/graph/badge.svg" alt="Coverage"></a>
-  <a href="https://scitex-context.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/scitex-context/badge/?version=latest" alt="Docs"></a>
+  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/v/scitex-context?label=pypi" alt="pypi"></a>
+  <a href="https://pypi.org/project/scitex-context/"><img src="https://img.shields.io/pypi/pyversions/scitex-context?label=python" alt="python"></a>
+  <a href="https://scitex-context.readthedocs.io/en/latest/"><img src="https://img.shields.io/readthedocs/scitex-context?label=docs" alt="docs"></a>
   <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/license-AGPL_v3-blue.svg" alt="License: AGPL v3"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/ywatanabe1989/scitex-context/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/scitex-context/ci.yml?branch=develop&label=tests" alt="tests"></a>
+  <a href="https://codecov.io/gh/ywatanabe1989/scitex-context"><img src="https://img.shields.io/codecov/c/github/ywatanabe1989/scitex-context/develop?label=cov" alt="cov"></a>
 </p>
 <!-- scitex-badges:end -->
 
 ---
-
-## Installation
-
-```bash
-pip install scitex-context
-```
-
-## Architecture
-
-```
-scitex_context/
-├── __init__.py                 ← Public API (env detection + suppress helpers)
-├── _detect_environment.py      ← script / notebook / ipython detector
-├── _get_notebook_path.py       ← Jupyter notebook path & metadata helpers
-└── _suppress_output.py         ← suppress_output() / quiet() context managers
-```
-
-Pure-stdlib, zero-dep helpers. The umbrella `scitex.context` import path
-is preserved via a `sys.modules`-alias bridge installed at import time.
 
 ## Quick Start
 
@@ -55,6 +38,57 @@ if ctx.is_notebook():
 with ctx.suppress_output():
     noisy_function()
 ```
+
+## Demo
+
+```mermaid
+flowchart LR
+    A["import scitex_context as ctx"] --> B{ctx.detect_environment()}
+    B -- "python foo.py" --> S["script"]
+    B -- "jupyter" --> N["notebook"]
+    B -- "ipython REPL" --> I["ipython"]
+    S & N & I --> O["ctx.get_output_directory()"]
+    N --> P["ctx.get_notebook_path()"]
+    A --> Q["with ctx.suppress_output():<br/>    noisy_call()"]
+```
+
+<p align="center"><sub><b>Figure 1.</b> Detect-then-adapt: one import reports the execution context, then output-directory and notebook helpers follow it.</sub></p>
+
+## Installation
+
+```bash
+uv pip install "scitex-context[all]"
+```
+
+Through the umbrella: `uv pip install "scitex[context]"`. Requires Python ≥ 3.10.
+
+<details>
+<summary><b>Per-extra installs</b></summary>
+
+<br>
+
+| Extra | Pulls in |
+|---|---|
+| `dev` | `pytest`, `pytest-cov`, `pytest-timeout`, `ruff`, `scitex-dev` |
+| `docs` | `sphinx`, `sphinx-rtd-theme`, `myst-parser`, `sphinx-copybutton`, `sphinx-autodoc-typehints` |
+
+</details>
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U["user code"] --> D["_detect_environment.py"]
+    D -- "script | notebook | ipython" --> S["_suppress_output.py"]
+    D --> G["_get_notebook_path.py"]
+    S --> P["public API: __init__.py"]
+    G --> P
+```
+
+<p align="center"><sub><b>Figure 2.</b> Module layout: environment detection feeds output suppression and notebook-path helpers, all re-exported from the public API.</sub></p>
+
+Pure-stdlib, zero-dep helpers. The umbrella `scitex.context` import path
+is preserved via a `sys.modules`-alias bridge installed at import time.
 
 ## 1 Interfaces
 
@@ -89,19 +123,6 @@ with ctx.quiet():               # alias
 
 </details>
 
-## Demo
-
-```mermaid
-flowchart LR
-    A["import scitex_context as ctx"] --> B{ctx.detect_environment()}
-    B -- "python foo.py" --> S["script"]
-    B -- "jupyter" --> N["notebook"]
-    B -- "ipython REPL" --> I["ipython"]
-    S & N & I --> O["ctx.get_output_directory()"]
-    N --> P["ctx.get_notebook_path()"]
-    A --> Q["with ctx.suppress_output():<br/>    noisy_call()"]
-```
-
 ## Status
 
 Standalone fork of `scitex.context`. Pure stdlib — zero deps. The umbrella
@@ -110,9 +131,9 @@ bridge.
 
 ## Part of SciTeX
 
-`scitex-context` is part of [**SciTeX**](https://scitex.ai). Install via
-the umbrella with `pip install scitex[context]` to use as
-`scitex.context` (Python) or `scitex context ...` (CLI).
+> `scitex-context` is part of [**SciTeX**](https://scitex.ai). Install via
+> the umbrella with `pip install scitex[context]` to use as
+> `scitex.context` (Python) or `scitex context ...` (CLI).
 
 >Four Freedoms for Research
 >

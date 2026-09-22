@@ -57,6 +57,10 @@ scitex-context = "scitex_context"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["--disable-warnings"]
+markers = [
+    "smoke: fast subprocess happy-path tests (<60s, runs on every PR)",
+    "e2e: end-to-end workflows against real subsystems (gate with RUN_E2E=1)",
+]
 
 [tool.coverage.run]
 parallel = true
