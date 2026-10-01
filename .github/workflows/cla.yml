@@ -1,11 +1,10 @@
 name: CLA Assistant
 
-# MIGRATED: org-level reusable-workflow caller (scitex-ai/.github, 2026-07-10
-# incident remediation — see scitex-ai/scitex-stats PR #69 for the piloted
-# pattern). Triggers/permissions preserved verbatim from the prior local
-# file. This repo's allowlist ("bot*,ywatanabe1989,LLEmacs") differs from
-# the reusable workflow's default owner_allowlist ("bot*,ywatanabe1989"), so
-# an explicit `with:` override is kept below.
+# Reusable-workflow caller (scitex-ai/.github, 2026-07-10 fleet migration).
+# Triggers/permissions preserved verbatim from the prior local file.
+# owner_allowlist is overridden (adds LLEmacs on top of the reusable
+# workflow's default "bot*,ywatanabe1989") to match this repo's prior
+# hardcoded allowlist. owner_login/default_branch already match defaults.
 
 on:
   issue_comment:
@@ -22,6 +21,18 @@ permissions:
 jobs:
   call:
     uses: scitex-ai/.github/.github/workflows/cla.yml@main
-    secrets: inherit
     with:
       owner_allowlist: "bot*,ywatanabe1989,LLEmacs"
+      # PIN THE DESTINATION EXPLICITLY (PS-224). This job runs under
+      # `issue_comment` / `pull_request_target`, which an outsider can
+      # trigger and which bypass the fork-PR approval gate. An ephemeral
+      # hosted VM is the safe destination for that: a compromise costs one
+      # disposable runner, not the persistent self-hosted pool whose $HOME
+      # holds the fleet credential. Same call as scitex-genai.
+      runs_on: '["ubuntu-latest"]'
+    # ONE SECRET, NOT ALL OF THEM. `secrets: inherit` forwarded EVERY secret
+    # this repo holds into a job an outsider can start. The callee declares
+    # this single secret precisely so callers need not do that; it is the
+    # only one the CLA assistant uses.
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
